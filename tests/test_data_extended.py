@@ -104,6 +104,22 @@ def test_preprocess_reaches_flip_branches(monkeypatch):
     assert preprocess_image(image, stats, training=True).shape == (224, 224, 3)
 
 
+def test_preprocess_reaches_false_vertical_flip(monkeypatch):
+    image = np.zeros((256, 256, 3), dtype=np.uint8)
+    stats = NormalizationStats(np.zeros(3), np.ones(3))
+
+    class FixedRng:
+        values = iter([1, 0, 0])
+
+        def integers(self, high):
+            return next(self.values)
+
+    monkeypatch.setattr(
+        "galaxy_classifier.data.np.random.default_rng", lambda seed: FixedRng()
+    )
+    assert preprocess_image(image, stats, training=True).shape == (224, 224, 3)
+
+
 def test_prepare_hdf5_validation_errors(tmp_path):
     path = tmp_path / "bad.h5"
     with h5py.File(path, "w") as handle:
@@ -117,3 +133,16 @@ def test_prepare_hdf5_validation_errors(tmp_path):
         handle.create_dataset("ans", data=np.array([0, 10]))
     with pytest.raises(ValueError, match="integer values"):
         prepare_hdf5(path, tmp_path / "out2")
+
+
+def test_prepare_hdf5_reports_missing_h5py(monkeypatch, tmp_path):
+    real_import = __import__
+
+    def fake_import(name, *args, **kwargs):
+        if name == "h5py":
+            raise ImportError("missing")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr("builtins.__import__", fake_import)
+    with pytest.raises(RuntimeError, match="h5py"):
+        prepare_hdf5(tmp_path / "missing.h5", tmp_path / "out")

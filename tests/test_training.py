@@ -51,9 +51,9 @@ def test_train_model_writes_metrics_and_best_checkpoint(tmp_path) -> None:
         training,
         "make_train_step",
         lambda optimizer: (
-            lambda model, images, labels: training.loss_and_grad(model, images, labels)[
-                0
-            ]
+            lambda model, optimizer, images, labels: training.loss_and_grad(
+                model, images, labels
+            )[0]
         ),
     )
     model = nnx.Linear(2, 2, rngs=nnx.Rngs(0))
@@ -102,7 +102,7 @@ def test_make_train_step_with_tiny_linear():
     model = nnx.Linear(2, 2, rngs=nnx.Rngs(0))
     optimizer = nnx.Optimizer(model, make_optimizer(0.01), wrt=nnx.Param)
     step = training.make_train_step(optimizer)
-    loss = step(model, jnp.ones((1, 2)), jnp.array([0]))
+    loss = step(model, optimizer, jnp.ones((1, 2)), jnp.array([0]))
     assert loss.shape == ()
 
 
@@ -118,7 +118,7 @@ def test_training_loop_with_callable_batches(tmp_path):
     monkeypatch.setattr(
         training,
         "make_train_step",
-        lambda optimizer: lambda model, images, labels: jnp.array(1.0),
+        lambda optimizer: lambda model, optimizer, images, labels: jnp.array(1.0),
     )
     monkeypatch.setattr(
         training,
@@ -155,10 +155,74 @@ def test_make_train_step_executes_with_tiny_linear(monkeypatch):
         "loss_and_grad",
         lambda model, images, labels: (jnp.array(1.0), object()),
     )
-    loss = training.make_train_step(optimizer)(model, jnp.ones((1, 2)), jnp.array([0]))
+    loss = training.make_train_step(optimizer)(
+        model, optimizer, jnp.ones((1, 2)), jnp.array([0])
+    )
     assert loss == 1.0
 
 
 def test_training_callable_batches_and_unsized_error(tmp_path):
     with pytest.raises(ValueError, match="steps_per_epoch"):
         training.train_model(nnx.Linear(2, 2, rngs=nnx.Rngs(0)), iter(()), iter(()))
+
+
+def test_training_resume_and_no_run_dir(monkeypatch, tmp_path):
+    class Optimizer:
+        def __init__(self, *args, **kwargs):
+            self.state = {}
+
+    monkeypatch.setattr(training.nnx, "Optimizer", Optimizer)
+    monkeypatch.setattr(training.nnx, "state", lambda value: {})
+    monkeypatch.setattr(training.nnx, "update", lambda *args: None)
+    monkeypatch.setattr(
+        training,
+        "restore_checkpoint",
+        lambda *args: (
+            {"model": {}, "optimizer": {}},
+            {"epoch": 0, "step": 1, "best_metric": 1.0},
+        ),
+    )
+    monkeypatch.setattr(
+        training, "make_train_step", lambda _: lambda *args: jnp.array(1.0)
+    )
+    monkeypatch.setattr(
+        training,
+        "evaluate_model",
+        lambda *args: training.ClassificationMetrics(
+            1.0, 0.5, 0.5, np.ones(10), np.ones(10), np.ones(10), np.eye(10)
+        ),
+    )
+    result = training.train_model(
+        nnx.Linear(2, 2, rngs=nnx.Rngs(0)),
+        lambda: [(jnp.ones((1, 2)), jnp.array([0]))],
+        lambda: [(jnp.ones((1, 2)), jnp.array([0]))],
+        config=TrainConfig(max_epochs=2, steps_per_epoch=1, early_stopping_patience=1),
+        resume=tmp_path / "checkpoint",
+    )
+    assert result.best_epoch == -1
+
+
+def test_training_without_run_dir_and_without_early_stop(monkeypatch):
+    class Optimizer:
+        def __init__(self, *args, **kwargs):
+            self.state = {}
+
+    monkeypatch.setattr(training.nnx, "Optimizer", Optimizer)
+    monkeypatch.setattr(training.nnx, "state", lambda value: {})
+    monkeypatch.setattr(
+        training, "make_train_step", lambda _: lambda *args: jnp.array(1.0)
+    )
+    monkeypatch.setattr(
+        training,
+        "evaluate_model",
+        lambda *args: training.ClassificationMetrics(
+            1.0, 1.0, 1.0, np.ones(10), np.ones(10), np.ones(10), np.eye(10)
+        ),
+    )
+    result = training.train_model(
+        nnx.Linear(2, 2, rngs=nnx.Rngs(0)),
+        [(jnp.ones((1, 2)), jnp.array([0]))],
+        [(jnp.ones((1, 2)), jnp.array([0]))],
+        config=TrainConfig(max_epochs=2, early_stopping_patience=2),
+    )
+    assert result.best_epoch == 0

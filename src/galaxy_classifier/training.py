@@ -111,6 +111,7 @@ def make_train_step(optimizer: nnx.Optimizer) -> Callable[..., jax.Array]:
     @nnx.jit
     def step(
         model: nnx.Module,
+        optimizer: nnx.Optimizer,
         images: jax.Array,
         labels: jax.Array,
     ) -> jax.Array:
@@ -203,7 +204,7 @@ def train_model(
         losses = []
         for raw_batch in batches(train_batches):
             images, labels = _batch(raw_batch)
-            losses.append(float(step_fn(model, images, labels)))
+            losses.append(float(step_fn(model, optimizer, images, labels)))
             step += 1
         metrics = evaluate_model(model, batches(validation_batches))
         record = {

@@ -19,6 +19,7 @@ from .data import (
     NormalizationStats,
     download_dataset,
     prepare_hdf5,
+    preprocess_image,
 )
 from .dataset import HDF5DataSource
 from .model import ViTTiny
@@ -116,10 +117,13 @@ def _run_training_command(args: argparse.Namespace) -> int:
         source = HDF5DataSource(dataset_path, indices, stats=stats)
         try:
             for start in range(0, len(source), batch_size):
-                records = [
-                    source[index]
-                    for index in range(start, min(start + batch_size, len(source)))
-                ]
+                records = []
+                for index in range(start, min(start + batch_size, len(source))):
+                    record = source[index]
+                    record["image"] = preprocess_image(
+                        record["image"], stats, seed=index, training=training
+                    )
+                    records.append(record)
                 yield {
                     "image": jnp.asarray(
                         np.stack([record["image"] for record in records])

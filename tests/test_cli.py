@@ -1,4 +1,6 @@
 import json
+import runpy
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -94,23 +96,70 @@ def test_training_and_evaluation_commands(tmp_path, monkeypatch, capsys):
     )
     monkeypatch.setattr(cli, "HDF5DataSource", lambda *args, **kwargs: [])
     assert cli.main(["train", "--config", str(config)]) == 0
-    assert "best_epoch" in capsys.readouterr().out
+
+
+def test_cli_batch_generator_evaluate(tmp_path, monkeypatch, capsys):
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    np.savez(data_dir / "split.npz", train=[0], validation=[0], test=[0])
+    (data_dir / "metadata.json").write_text(
+        json.dumps({"normalization": {"mean": [0, 0, 0], "std": [1, 1, 1]}})
+    )
+    dataset = tmp_path / "dataset.h5"
+    dataset.write_bytes(b"x")
+    run_dir = tmp_path / "run"
+    config = tmp_path / "config.toml"
+    config.write_text(
+        f"dataset_path = '{dataset}'\nrun_dir = '{run_dir}'\ndata_dir = '{data_dir}'\n"
+    )
+    model = nnx.Linear(2, 2, rngs=nnx.Rngs(0))
+
+    class Source:
+        def __init__(self, *args, **kwargs):
+            self.records = [
+                {"image": np.zeros((256, 256, 3)), "label": np.int64(0)},
+                {"image": np.zeros((256, 256, 3)), "label": np.int64(0)},
+            ]
+
+        def __len__(self):
+            return 2
+
+        def __getitem__(self, index):
+            return self.records[index]
+
+        def close(self):
+            pass
+
+    monkeypatch.setattr(cli, "HDF5DataSource", Source)
+    monkeypatch.setattr(cli, "ViTTiny", lambda **kwargs: model)
+
+    def evaluate(model, batches):
+        batch = next(iter(batches))
+        assert batch["image"].shape[1:] == (224, 224, 3)
+        return ClassificationMetrics(
+            1.0, 1.0, 1.0, np.ones(10), np.ones(10), np.ones(10), np.eye(10)
+        )
+
+    monkeypatch.setattr(
+        cli,
+        "evaluate_model",
+        evaluate,
+    )
     monkeypatch.setattr(
         checkpointing,
         "restore_checkpoint",
         lambda *args: ({"model": nnx.state(model)}, {}),
     )
-    monkeypatch.setattr(
-        cli,
-        "evaluate_model",
-        lambda *args: ClassificationMetrics(
-            1.0, 1.0, 1.0, np.ones(1), np.ones(1), np.ones(1), np.ones((1, 1))
-        ),
-    )
     assert (
         cli.main(["evaluate", "--config", str(config), "--resume", str(run_dir)]) == 0
     )
     assert "accuracy" in capsys.readouterr().out
+
+
+def test_cli_module_entrypoint(monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["galaxy_classifier.cli", "--help"])
+    with pytest.raises(SystemExit, match="0"):
+        runpy.run_module("galaxy_classifier.cli", run_name="__main__")
 
 
 def test_training_requires_run_dir(tmp_path):
@@ -163,3 +212,49 @@ def test_cli_batch_generator_reads_records(tmp_path, monkeypatch):
         cli, "train_model", lambda *args, **kwargs: TrainResult([], 0, 1.0, 0)
     )
     assert cli.main(["train", "--config", str(config)]) == 0
+
+
+def test_cli_empty_batch_source_closes(tmp_path, monkeypatch):
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    np.savez(data_dir / "split.npz", train=[], validation=[], test=[])
+    (data_dir / "metadata.json").write_text(
+        json.dumps({"normalization": {"mean": [0, 0, 0], "std": [1, 1, 1]}})
+    )
+    dataset = tmp_path / "dataset.h5"
+    dataset.write_bytes(b"x")
+    config = tmp_path / "config.toml"
+    config.write_text(
+        f"dataset_path = '{dataset}'\nrun_dir = '{tmp_path / 'run'}'\n"
+        f"data_dir = '{data_dir}'\n"
+    )
+    closed = []
+
+    class Source:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def __len__(self):
+            return 0
+
+        def close(self):
+            closed.append(True)
+
+    monkeypatch.setattr(cli, "HDF5DataSource", Source)
+    monkeypatch.setattr(
+        cli, "ViTTiny", lambda **kwargs: nnx.Linear(2, 2, rngs=nnx.Rngs(0))
+    )
+    monkeypatch.setattr(
+        cli,
+        "evaluate_model",
+        lambda model, batches: (
+            list(batches),
+            (_ for _ in ()).throw(ValueError()),
+        )[1],
+    )
+    monkeypatch.setattr(
+        checkpointing, "restore_checkpoint", lambda *args: ({"model": {}}, {})
+    )
+    with pytest.raises(ValueError):
+        cli.main(["evaluate", "--config", str(config), "--resume", str(tmp_path / "r")])
+    assert closed == [True]
