@@ -20,6 +20,15 @@ wheels = [
 ]
 
 [[package]]
+name = "aiofiles"
+version = "25.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/41/c3/534eac40372d8ee36ef40df62ec129bee4fdb5ad9706e58a29be53b2c970/aiofiles-25.1.0.tar.gz", hash = "sha256:a8d728f0a29de45dc521f18f07297428d56992a742f0cd2701ba86e44d23d5b2", size = 46354, upload-time = "2025-10-09T20:51:04.358Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bc/8a/340a1555ae33d7354dbca4faa54948d76d89a27ceef032c8c3bc661d003e/aiofiles-25.1.0-py3-none-any.whl", hash = "sha256:abe311e527c862958650f9438e859c1fa7568a141b22abcd015e120e86a85695", size = 14668, upload-time = "2025-10-09T20:51:03.174Z" },
+]
+
+[[package]]
 name = "array-record"
 version = "0.8.3"
 source = { registry = "https://pypi.org/simple" }
@@ -161,22 +170,50 @@ wheels = [
 name = "flax"
 version = "0.11.2"
 source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version < '3.12'",
+]
 dependencies = [
     { name = "jax", version = "0.6.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
-    { name = "jax", version = "0.10.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
-    { name = "msgpack" },
-    { name = "numpy" },
-    { name = "optax" },
-    { name = "orbax-checkpoint" },
-    { name = "pyyaml" },
-    { name = "rich" },
-    { name = "tensorstore" },
-    { name = "treescope" },
-    { name = "typing-extensions" },
+    { name = "msgpack", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "numpy", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "optax", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "orbax-checkpoint", version = "0.11.6", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "pyyaml", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "rich", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "tensorstore", version = "0.1.69", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "treescope", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "typing-extensions", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/ac/b9/3d2a5f94eb4aa9ff2e5981ac73ea91cfedef5f9de35d903e56cdcf539f31/flax-0.11.2.tar.gz", hash = "sha256:55452529b70c704128075a17f7a54d94f1f90b0f2d9498bdc9578cae3646e460", size = 5201170, upload-time = "2025-08-28T17:56:34.658Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/bb/b2/5f520253823c84ca87ca0fe5a7b9d96417b1e549b98a38f5069555590d07/flax-0.11.2-py3-none-any.whl", hash = "sha256:61a5f60c27ab4e6420fda7f593f93b5ec1adba629fd33b2f0e52740ab7c04da9", size = 458093, upload-time = "2025-08-28T17:56:32.588Z" },
+]
+
+[[package]]
+name = "flax"
+version = "0.12.8"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version < '3.12'",
+]
+dependencies = [
+    { name = "jax", version = "0.10.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "msgpack", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "numpy", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "optax", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "orbax-checkpoint", version = "0.12.4", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "pyyaml", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "rich", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "tensorstore", version = "0.1.85", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "treescope", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "typing-extensions", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d3/b3/d2effc3a26f61135a90c7b282473b8c7963d124856ce860743a12c99a0da/flax-0.12.8.tar.gz", hash = "sha256:1bb438775b967a3f1f42b9c3d4ddf1d2883cd6406589f9cecdc244634036bdc4", size = 15710344, upload-time = "2026-07-20T18:29:40.647Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ac/da/2bda90cbe3bab93a5ce37263d6a461ee12e851d8d32b1a86bc3e682d651a/flax-0.12.8-py3-none-any.whl", hash = "sha256:807931d369cbc716fc447801ab39cd6c3c2614d573387a2319a028675dd34fe5", size = 531332, upload-time = "2026-07-20T18:29:38.971Z" },
 ]
 
 [[package]]
@@ -194,23 +231,26 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "dm-tree" },
-    { name = "flax" },
+    { name = "flax", version = "0.11.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "flax", version = "0.12.8", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
     { name = "grain" },
     { name = "h5py" },
     { name = "ml-dtypes" },
     { name = "numpy" },
     { name = "optax" },
-    { name = "orbax-checkpoint" },
     { name = "scipy" },
-    { name = "tensorstore" },
 ]
 
 [package.optional-dependencies]
 cpu = [
     { name = "jax", version = "0.6.2", source = { registry = "https://pypi.org/simple" } },
+    { name = "orbax-checkpoint", version = "0.11.6", source = { registry = "https://pypi.org/simple" } },
+    { name = "tensorstore", version = "0.1.69", source = { registry = "https://pypi.org/simple" } },
 ]
 cuda = [
     { name = "jax", version = "0.10.2", source = { registry = "https://pypi.org/simple" }, extra = ["cuda13"], marker = "extra == 'extra-17-galaxy-classifier-cuda'" },
+    { name = "orbax-checkpoint", version = "0.12.4", source = { registry = "https://pypi.org/simple" } },
+    { name = "tensorstore", version = "0.1.85", source = { registry = "https://pypi.org/simple" } },
 ]
 train = [
     { name = "tensorboard" },
@@ -236,10 +276,12 @@ requires-dist = [
     { name = "ml-dtypes", specifier = "==0.5.1" },
     { name = "numpy", specifier = "==2.2.6" },
     { name = "optax", specifier = ">=0.2" },
-    { name = "orbax-checkpoint", specifier = ">=0.11" },
+    { name = "orbax-checkpoint", marker = "extra == 'cpu'", specifier = ">=0.11,<0.12" },
+    { name = "orbax-checkpoint", marker = "extra == 'cuda'", specifier = ">=0.12" },
     { name = "scipy", specifier = "==1.15.1" },
     { name = "tensorboard", marker = "extra == 'train'", specifier = ">=2.18" },
-    { name = "tensorstore", specifier = "==0.1.69" },
+    { name = "tensorstore", marker = "extra == 'cpu'", specifier = "==0.1.69" },
+    { name = "tensorstore", marker = "extra == 'cuda'", specifier = ">=0.1.84" },
 ]
 provides-extras = ["cpu", "cuda", "train"]
 
@@ -838,24 +880,58 @@ wheels = [
 name = "orbax-checkpoint"
 version = "0.11.6"
 source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version < '3.12'",
+]
 dependencies = [
-    { name = "absl-py" },
-    { name = "etils", extra = ["epath", "epy"] },
-    { name = "humanize" },
+    { name = "absl-py", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "etils", extra = ["epath", "epy"], marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "humanize", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
     { name = "jax", version = "0.6.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
-    { name = "jax", version = "0.10.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
-    { name = "msgpack" },
-    { name = "nest-asyncio" },
-    { name = "numpy" },
-    { name = "protobuf" },
-    { name = "pyyaml" },
-    { name = "simplejson" },
-    { name = "tensorstore" },
-    { name = "typing-extensions" },
+    { name = "msgpack", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "nest-asyncio", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "numpy", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "protobuf", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "pyyaml", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "simplejson", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "tensorstore", version = "0.1.69", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "typing-extensions", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a8/66/1499f770885b6b42ed4ac839ac4482e681b3a60f96dcd935a32221c165b3/orbax_checkpoint-0.11.6.tar.gz", hash = "sha256:e16a8bbabe7bc0c94f611d115b2b7790183e6847152804a261048160b81b9628", size = 258729, upload-time = "2025-02-21T01:38:14.678Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/82/f5/6707aabc6d4928bdac3eadee00972616f41a83362a5b0441d63a93d81b75/orbax_checkpoint-0.11.6-py3-none-any.whl", hash = "sha256:fb208012e5d3601ee37b1100fe4331f9982b814df89f572749be9094fa499e1f", size = 361764, upload-time = "2025-02-21T01:38:12.638Z" },
+]
+
+[[package]]
+name = "orbax-checkpoint"
+version = "0.12.4"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version < '3.12'",
+]
+dependencies = [
+    { name = "absl-py", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "aiofiles", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "etils", extra = ["epath", "epy"], marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "humanize", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "jax", version = "0.10.2", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "msgpack", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "nest-asyncio", marker = "(sys_platform == 'win32' and extra != 'extra-17-galaxy-classifier-cpu') or (extra == 'extra-17-galaxy-classifier-cpu' and extra == 'extra-17-galaxy-classifier-cuda')" },
+    { name = "numpy", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "prometheus-client", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "protobuf", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "psutil", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "pyyaml", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "simplejson", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "tensorstore", version = "0.1.85", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "typing-extensions", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "uvloop", marker = "(sys_platform != 'win32' and extra != 'extra-17-galaxy-classifier-cpu') or (extra == 'extra-17-galaxy-classifier-cpu' and extra == 'extra-17-galaxy-classifier-cuda')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d6/b2/7f709a61337465826c7d2acdb98285fa6270e90ba59b76a1f42bcb18bfe2/orbax_checkpoint-0.12.4.tar.gz", hash = "sha256:5e6e14b6ca4a7979e04e6769afa0a39dd535bb4b9bf9af64bdf5b55ca44eb795", size = 749838, upload-time = "2026-08-12T21:05:15.856Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0c/30/19cebe8b381179ccd45faab303f4279c3aaa3a707387c42fbbb43ca778ac/orbax_checkpoint-0.12.4-py3-none-any.whl", hash = "sha256:f16d87e2c86d69480cdd2af21e53d2928fbeea0e432e35cb31600d547e035ecd", size = 1370245, upload-time = "2026-08-12T21:05:14.142Z" },
 ]
 
 [[package]]
@@ -905,6 +981,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f9/e2/3e91f31a7d2b083fe6ef3fa267035b518369d9511ffab804f839851d2779/pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3", size = 69412, upload-time = "2025-05-15T12:30:07.975Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746", size = 20538, upload-time = "2025-05-15T12:30:06.134Z" },
+]
+
+[[package]]
+name = "prometheus-client"
+version = "0.26.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/52/73/f1334c29c2af4cd9dba6c7817e61b611bd0215e2eb5565c6064a4de18802/prometheus_client-0.26.0.tar.gz", hash = "sha256:04a91bcf94e2cf74a44a1a874d651a2e853ed354b6e822f3b7487751465d5c2b", size = 92910, upload-time = "2026-07-24T19:36:41.893Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/eb/a3/b69efbf4143b5b9859b977770bbbabcc2796b702fa69dc40271e45cd5a56/prometheus_client-0.26.0-py3-none-any.whl", hash = "sha256:fa93d06737aa02bacd05794768508bb97d2fbee28cb3bca04eaae92f0ca953d6", size = 64494, upload-time = "2026-07-24T19:36:40.854Z" },
 ]
 
 [[package]]
@@ -1180,9 +1265,13 @@ wheels = [
 name = "tensorstore"
 version = "0.1.69"
 source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version < '3.12'",
+]
 dependencies = [
-    { name = "ml-dtypes" },
-    { name = "numpy" },
+    { name = "ml-dtypes", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
+    { name = "numpy", marker = "extra == 'extra-17-galaxy-classifier-cpu'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/12/0e/03b2797d25f70b30c807bfef1aa8ce09731e7a82a406ba84bb67ddfc34df/tensorstore-0.1.69.tar.gz", hash = "sha256:150cdc7e2044b7629ea466bfc8425ab50e52c8300950dbdd4a64445a2d4fbab1", size = 6585496, upload-time = "2024-11-25T23:09:43.073Z" }
 wheels = [
@@ -1196,6 +1285,32 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/e7/9e/48339e916035472a3307eb2746f731100834715aec1023f07d0d6a7e9fbc/tensorstore-0.1.69-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:368e84a9b67f153f18cefa8d6557098c52300b44ea633cbe00a1f23b6124373a", size = 16194513, upload-time = "2024-11-25T23:09:18.698Z" },
     { url = "https://files.pythonhosted.org/packages/bc/a9/f3dbd91a93a3f4d9c427676d5e11a9cf8b5485ff27eb13cbc57b0b937fa6/tensorstore-0.1.69-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c3221a1954f1721c178b453a9bd9839c6d80a36a2f45afe43ec9d7f21de97ebd", size = 17529065, upload-time = "2024-11-25T23:09:21.2Z" },
     { url = "https://files.pythonhosted.org/packages/00/ca/8080e4bd57028aface79b212de13d9fecdebe905e644823c5cc96e172484/tensorstore-0.1.69-cp312-cp312-win_amd64.whl", hash = "sha256:3d88bc1732cc2aa84f2ae98ed00586ce1ce9f149f885982f097248d77986d5ef", size = 11999274, upload-time = "2024-11-25T23:09:23.87Z" },
+]
+
+[[package]]
+name = "tensorstore"
+version = "0.1.85"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version < '3.12'",
+]
+dependencies = [
+    { name = "ml-dtypes", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+    { name = "numpy", marker = "extra == 'extra-17-galaxy-classifier-cuda' or extra != 'extra-17-galaxy-classifier-cpu'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/26/16/a6530387ed22d07e974af2ef55e34fb19a7251a6911c85a0be029a4dcf9c/tensorstore-0.1.85.tar.gz", hash = "sha256:26698bded0278e98e0988eb8f7d76ad248762afc5f55a38b9122ffd1474e505f", size = 7317948, upload-time = "2026-08-05T15:35:56.098Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4c/ba/0c0eda6111eda5e48ca28e82f4ffeb565efa4f57565fbec90c7acfcd12a3/tensorstore-0.1.85-cp311-cp311-macosx_10_14_x86_64.whl", hash = "sha256:c4d8a1afcf999d9464c90fa052f529fe838132296f3749e1fc2f50723145a917", size = 16994471, upload-time = "2026-08-05T15:34:49.006Z" },
+    { url = "https://files.pythonhosted.org/packages/ef/78/647afdfdd322bc4388ec2b653e10840651e71314537794af6441a4d9781e/tensorstore-0.1.85-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:97da7c277bdbf277e6a35ed6a72eb269e2bbfb45b626175b2b0cbd00bed231b8", size = 15401482, upload-time = "2026-08-05T15:34:52.144Z" },
+    { url = "https://files.pythonhosted.org/packages/94/46/7688d054da24348030959cd9ac8edaf504ee9d796b3871c87f73520b01d2/tensorstore-0.1.85-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:85e92ad6b211009d144cc0d06fe0eb342f37a76bcf9bb3da8229cc5010127e68", size = 19963583, upload-time = "2026-08-05T15:34:54.576Z" },
+    { url = "https://files.pythonhosted.org/packages/4f/44/baeeed4d40b45b26b6a9649904977a7d31cb605eb2a889a0ded4b089076c/tensorstore-0.1.85-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:d5a6ab8efeab312b48507e36923215d8ab8541d55e2f5aa9a084cd51792e1d7b", size = 21564147, upload-time = "2026-08-05T15:34:57.3Z" },
+    { url = "https://files.pythonhosted.org/packages/f4/f4/7968de62b9ebc81f2049755fe820c6536f7714233c633868dfd29dc58630/tensorstore-0.1.85-cp311-cp311-win_amd64.whl", hash = "sha256:f9cd1b6139ed480512b3df7d3be7c8cbcdc65ddd63553f94deca61686339ad4b", size = 14124747, upload-time = "2026-08-05T15:35:00.573Z" },
+    { url = "https://files.pythonhosted.org/packages/64/81/612d3f58009ea1380f9befe2dced9d98c0a0fd608cd3e9d89389f9a04757/tensorstore-0.1.85-cp312-cp312-macosx_10_14_x86_64.whl", hash = "sha256:6b9453f28de853c804339bf882d0bc3eb523c4c55600b764239240bdec4460a8", size = 17015828, upload-time = "2026-08-05T15:35:03.426Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/3c/74050e09a490c0cfed6016430226710d29fe4e165e12145368c7de4c6426/tensorstore-0.1.85-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:af9189ca9f692bf83ce53e760a8b53fcf46ad0bf365930726faa0e301d0ab147", size = 15411026, upload-time = "2026-08-05T15:35:05.89Z" },
+    { url = "https://files.pythonhosted.org/packages/88/7e/a1100ea66dbb028e0ea02f6d2e413e05285534d82d560f1f7d6145603640/tensorstore-0.1.85-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:0e2f42d1e57df7e07655b819dd07f3de258fde97e39b896a53f089d7d7067e21", size = 19973651, upload-time = "2026-08-05T15:35:09.016Z" },
+    { url = "https://files.pythonhosted.org/packages/78/49/c311f02b82299c6d79e18c7012c8b816141c54721253cbcba1c7c59550d4/tensorstore-0.1.85-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:de27f2d6e063050f4283d1fdfe41e6c0ebc6ceacaab10ca2f7e9ecbf35221962", size = 21580735, upload-time = "2026-08-05T15:35:11.727Z" },
+    { url = "https://files.pythonhosted.org/packages/88/da/3d66562291808e1edd433704bfdd4f212c1a6c53920293fb5f7296d644a5/tensorstore-0.1.85-cp312-cp312-win_amd64.whl", hash = "sha256:a5421480cd6ab144039c88fc7018ea5cefb8d00038e6dd2470cf776ef1bf45a5", size = 14129526, upload-time = "2026-08-05T15:35:14.98Z" },
 ]
 
 [[package]]
@@ -1244,6 +1359,26 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f6/cc/6253133b5bb138fc3306cebfbda2c520f545d36b5be2c7255cc528bb45d6/typing_extensions-4.16.0.tar.gz", hash = "sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5", size = 113555, upload-time = "2026-07-02T08:40:05.92Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/49/d3/b8441a820a491ddfc024b0b0cf0393375b75ea13866d9c66727e54c2fc80/typing_extensions-4.16.0-py3-none-any.whl", hash = "sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8", size = 45571, upload-time = "2026-07-02T08:40:04.659Z" },
+]
+
+[[package]]
+name = "uvloop"
+version = "0.22.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/06/f0/18d39dbd1971d6d62c4629cc7fa67f74821b0dc1f5a77af43719de7936a7/uvloop-0.22.1.tar.gz", hash = "sha256:6c84bae345b9147082b17371e3dd5d42775bddce91f885499017f4607fdaf39f", size = 2443250, upload-time = "2025-10-16T22:17:19.342Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/d5/69900f7883235562f1f50d8184bb7dd84a2fb61e9ec63f3782546fdbd057/uvloop-0.22.1-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:c60ebcd36f7b240b30788554b6f0782454826a0ed765d8430652621b5de674b9", size = 1352420, upload-time = "2025-10-16T22:16:21.187Z" },
+    { url = "https://files.pythonhosted.org/packages/a8/73/c4e271b3bce59724e291465cc936c37758886a4868787da0278b3b56b905/uvloop-0.22.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:3b7f102bf3cb1995cfeaee9321105e8f5da76fdb104cdad8986f85461a1b7b77", size = 748677, upload-time = "2025-10-16T22:16:22.558Z" },
+    { url = "https://files.pythonhosted.org/packages/86/94/9fb7fad2f824d25f8ecac0d70b94d0d48107ad5ece03769a9c543444f78a/uvloop-0.22.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:53c85520781d84a4b8b230e24a5af5b0778efdb39142b424990ff1ef7c48ba21", size = 3753819, upload-time = "2025-10-16T22:16:23.903Z" },
+    { url = "https://files.pythonhosted.org/packages/74/4f/256aca690709e9b008b7108bc85fba619a2bc37c6d80743d18abad16ee09/uvloop-0.22.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:56a2d1fae65fd82197cb8c53c367310b3eabe1bbb9fb5a04d28e3e3520e4f702", size = 3804529, upload-time = "2025-10-16T22:16:25.246Z" },
+    { url = "https://files.pythonhosted.org/packages/7f/74/03c05ae4737e871923d21a76fe28b6aad57f5c03b6e6bfcfa5ad616013e4/uvloop-0.22.1-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:40631b049d5972c6755b06d0bfe8233b1bd9a8a6392d9d1c45c10b6f9e9b2733", size = 3621267, upload-time = "2025-10-16T22:16:26.819Z" },
+    { url = "https://files.pythonhosted.org/packages/75/be/f8e590fe61d18b4a92070905497aec4c0e64ae1761498cad09023f3f4b3e/uvloop-0.22.1-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:535cc37b3a04f6cd2c1ef65fa1d370c9a35b6695df735fcff5427323f2cd5473", size = 3723105, upload-time = "2025-10-16T22:16:28.252Z" },
+    { url = "https://files.pythonhosted.org/packages/3d/ff/7f72e8170be527b4977b033239a83a68d5c881cc4775fca255c677f7ac5d/uvloop-0.22.1-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:fe94b4564e865d968414598eea1a6de60adba0c040ba4ed05ac1300de402cd42", size = 1359936, upload-time = "2025-10-16T22:16:29.436Z" },
+    { url = "https://files.pythonhosted.org/packages/c3/c6/e5d433f88fd54d81ef4be58b2b7b0cea13c442454a1db703a1eea0db1a59/uvloop-0.22.1-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:51eb9bd88391483410daad430813d982010f9c9c89512321f5b60e2cddbdddd6", size = 752769, upload-time = "2025-10-16T22:16:30.493Z" },
+    { url = "https://files.pythonhosted.org/packages/24/68/a6ac446820273e71aa762fa21cdcc09861edd3536ff47c5cd3b7afb10eeb/uvloop-0.22.1-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:700e674a166ca5778255e0e1dc4e9d79ab2acc57b9171b79e65feba7184b3370", size = 4317413, upload-time = "2025-10-16T22:16:31.644Z" },
+    { url = "https://files.pythonhosted.org/packages/5f/6f/e62b4dfc7ad6518e7eff2516f680d02a0f6eb62c0c212e152ca708a0085e/uvloop-0.22.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:7b5b1ac819a3f946d3b2ee07f09149578ae76066d70b44df3fa990add49a82e4", size = 4426307, upload-time = "2025-10-16T22:16:32.917Z" },
+    { url = "https://files.pythonhosted.org/packages/90/60/97362554ac21e20e81bcef1150cb2a7e4ffdaf8ea1e5b2e8bf7a053caa18/uvloop-0.22.1-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:e047cc068570bac9866237739607d1313b9253c3051ad84738cbb095be0537b2", size = 4131970, upload-time = "2025-10-16T22:16:34.015Z" },
+    { url = "https://files.pythonhosted.org/packages/99/39/6b3f7d234ba3964c428a6e40006340f53ba37993f46ed6e111c6e9141d18/uvloop-0.22.1-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:512fec6815e2dd45161054592441ef76c830eddaad55c8aa30952e6fe1ed07c0", size = 4296343, upload-time = "2025-10-16T22:16:35.149Z" },
 ]
 
 [[package]]

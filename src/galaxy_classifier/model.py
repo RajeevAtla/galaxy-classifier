@@ -140,10 +140,12 @@ class ViTTiny(nnx.Module):
             jnp.zeros((1, config.num_patches + 1, config.embed_dim), dtype=jnp.float32)
         )
         self.dropout = nnx.Dropout(config.dropout_rate, rngs=rngs)
-        self.blocks = [
-            AttentionBlock(config, dtype=self.compute_dtype, rngs=rngs)
-            for _ in range(config.depth)
-        ]
+        self.blocks = nnx.data(
+            [
+                AttentionBlock(config, dtype=self.compute_dtype, rngs=rngs)
+                for _ in range(config.depth)
+            ]
+        )
         self.norm = nnx.LayerNorm(
             config.embed_dim,
             dtype=self.compute_dtype,

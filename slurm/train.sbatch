@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=galaxy-vit
-#SBATCH --partition=gpu
+#SBATCH --partition=gpu-redhat
 #SBATCH --gres=gpu:1
 #SBATCH --constraint=ampere
 #SBATCH --cpus-per-task=4
@@ -13,11 +13,6 @@
 set -euo pipefail
 mkdir -p slurm
 
-module purge
-module use /projects/community/modulefiles
-module load apptainer
-module load git/2.35.1-ez82
-
 export APPTAINER_CACHEDIR="/scratch/${USER}/apptainer"
 mkdir -p "${APPTAINER_CACHEDIR}"
 JAX_IMAGE="${APPTAINER_CACHEDIR}/jax_25.10-py3.sif"
@@ -26,15 +21,21 @@ if [ ! -f "${JAX_IMAGE}" ]; then
 fi
 
 echo "Job ${SLURM_JOB_ID} on ${SLURM_NODELIST}"
-git rev-parse --short HEAD
+if command -v git >/dev/null; then
+    git rev-parse --short HEAD
+fi
 
-apptainer exec --nv "${JAX_IMAGE}" bash -c '
+apptainer exec --nv --bind "${PWD}:/workspace" "${JAX_IMAGE}" bash -c '
     set -euo pipefail
+    cd /workspace
     export HOME="/scratch/${USER}"
-    export UV_CACHE_DIR="/scratch/${USER}/uv-cache"
-    mkdir -p "${UV_CACHE_DIR}"
-    uv sync --locked --extra cuda --extra train
+    export UV_CACHE_DIR="/tmp/galaxy-classifier-uv-cache"
+    export UV_PROJECT_ENVIRONMENT="/tmp/galaxy-classifier-venv"
+    /home/rra80/.local/bin/uv sync --locked --extra cuda --extra train
     nvidia-smi
-    uv run python -c "import jax; print(jax.devices())"
-    uv run galaxy-classifier train --config configs/vit_tiny.toml
+    /home/rra80/.local/bin/uv run python -c "import jax; print(jax.devices())"
+    /home/rra80/.local/bin/uv run galaxy-classifier train \
+        --config "${TRAIN_CONFIG:-configs/vit_tiny.toml}" \
+        --dataset-path "/scratch/${USER}/galaxy-classifier/data/Galaxy10_DECals.h5" \
+        --run-dir "/scratch/${USER}/galaxy-classifier/runs/${SLURM_JOB_ID}"
 '
