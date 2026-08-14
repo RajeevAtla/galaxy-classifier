@@ -28,8 +28,6 @@ command -v apptainer >/dev/null || {
 apptainer exec --nv "${JAX_IMAGE}" bash -c '
     set -euo pipefail
     export HOME="/scratch/${USER}"
-    export UV_CACHE_DIR="/scratch/${USER}/uv-cache"
-    mkdir -p "${UV_CACHE_DIR}"
     nvidia-smi
     python -c "import jax; print(jax.devices()); print(jax.default_backend())"
 '
