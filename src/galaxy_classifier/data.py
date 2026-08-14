@@ -220,14 +220,12 @@ def prepare_hdf5(
         ):
             raise ValueError(f"labels must be integer values in [0, {NUM_CLASSES - 1}]")
         train, validation, test = stratified_split(labels, seed=seed)
+        all_images = np.asarray(images[:])
         count = 0
         total = np.zeros(3, dtype=np.float64)
         total_square = np.zeros(3, dtype=np.float64)
         for start in range(0, len(train), 256):
-            batch = np.asarray(
-                [images[int(index)] for index in train[start : start + 256]],
-                dtype=np.float64,
-            )
+            batch = all_images[train[start : start + 256]].astype(np.float64)
             count += batch.shape[0] * batch.shape[1] * batch.shape[2]
             total += batch.sum(axis=(0, 1, 2))
             total_square += np.square(batch).sum(axis=(0, 1, 2))
