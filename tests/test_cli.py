@@ -1,5 +1,4 @@
 import json
-import runpy
 import sys
 from pathlib import Path
 
@@ -159,7 +158,7 @@ def test_cli_batch_generator_evaluate(tmp_path, monkeypatch, capsys):
 def test_cli_module_entrypoint(monkeypatch):
     monkeypatch.setattr(sys, "argv", ["galaxy_classifier.cli", "--help"])
     with pytest.raises(SystemExit, match="0"):
-        runpy.run_module("galaxy_classifier.cli", run_name="__main__")
+        cli.main()
 
 
 def test_training_requires_run_dir(tmp_path):

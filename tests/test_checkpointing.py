@@ -24,10 +24,11 @@ def test_checkpoint_metadata_defaults_and_values():
 
 def test_checkpoint_round_trip(tmp_path) -> None:
     path = tmp_path / "checkpoint"
-    state = {"weights": jnp.array([1, 2, 3])}
+    state = {"weights": jnp.array([1, 2, 3]), "step": 4}
     save_checkpoint(path, state, {"step": 4})
     restored, metadata = restore_checkpoint(path, state)
     assert restored["weights"].tolist() == [1, 2, 3]
+    assert restored["step"] == 4
     assert metadata == {"step": 4}
     assert inspect_checkpoint(path) == {"step": 4}
 

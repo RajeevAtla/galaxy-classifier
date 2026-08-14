@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+import jax
 import orbax.checkpoint as ocp
 
 
@@ -46,7 +47,15 @@ def restore_checkpoint(path: str | Path, item: Any) -> tuple[Any, dict[str, Any]
     """Restore a PyTree and its metadata."""
     source = Path(path)
     checkpointer = ocp.PyTreeCheckpointer()
-    state = checkpointer.restore(str(source), item=item)
+
+    def restore_arg(value: Any) -> Any:
+        sharding = getattr(value, "sharding", None)
+        if sharding is not None:
+            return ocp.ArrayRestoreArgs(sharding=sharding)
+        return ocp.RestoreArgs()
+
+    restore_args = jax.tree.map(restore_arg, item)
+    state = checkpointer.restore(str(source), item=item, restore_args=restore_args)
     metadata_path = source.with_suffix(".json")
     metadata = json.loads(metadata_path.read_text()) if metadata_path.exists() else {}
     return state, metadata

@@ -22,7 +22,7 @@ def test_model_shape_and_float32_logits():
     assert logits.dtype == jnp.float32
     assert all(
         cast(Any, param).value.dtype == jnp.float32
-        for _, param in nnx.state(model, nnx.Param).flat_state()
+        for _, param in nnx.to_flat_state(nnx.state(model, nnx.Param))
     )
 
 
